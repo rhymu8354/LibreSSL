@@ -30,6 +30,7 @@ string(REGEX REPLACE "\\..*" "" TLS_MAJOR_VERSION ${TLS_VERSION})
 option(LIBRESSL_SKIP_INSTALL "Skip installation" ${LIBRESSL_SKIP_INSTALL})
 option(LIBRESSL_APPS "Build apps" ON)
 option(LIBRESSL_TESTS "Build tests" ON)
+option(LIBRESSL_UNINSTALL "Define uninstall target" ON)
 option(ENABLE_ASM "Enable assembly" ON)
 option(ENABLE_EXTRATESTS "Enable extra tests that may be unreliable on some platforms" OFF)
 option(ENABLE_NC "Enable installing TLS-enabled nc(1)" OFF)
@@ -338,5 +339,7 @@ configure_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
 	IMMEDIATE @ONLY)
 
-add_custom_target(uninstall
-	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+if(LIBRESSL_UNINSTALL)
+	add_custom_target(uninstall
+		COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif(LIBRESSL_UNINSTALL)
